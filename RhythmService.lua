@@ -1,6 +1,5 @@
 -- RhythmService
 -- Created by Christian Toney / Draguwro
--- Published by Makuwro
 
 local RunService = game:GetService("RunService");
 
@@ -66,21 +65,22 @@ function RhythmService:CheckRhythm()
   local PerfectTolerance = RhythmService.Tolerance.Perfect;
   local OKTolerance = RhythmService.Tolerance.OK;
   local Result = {
-    Rating = 0;
     GoalTime = Goal[1];
     HitTime = SongPosition;
   };
   
   -- Check the time
-  if Goal[2] ~= 0 then
-    if Goal[1] - PerfectTolerance <= SongPosition and SongPosition <= Goal[1] + PerfectTolerance then
-      Result.Rating = 2;
-    elseif Goal[1] - OKTolerance <= SongPosition and SongPosition <= Goal[1] + OKTolerance then
-      Result.Rating = 1;
-    end;
+  for level, tolerance in pairs(RhythmService.Tolerance) do
+    coroutine.wrap(function()
+      if Goal[2] ~= 0 then
+        if Goal[1] - tolerance <= SongPosition and SongPosition <= Goal[1] + tolerance then
+          Result.Rating = level;
+        end;
+      end;
+    end)();
   end;
   
-  if Result.Rating ~= 0 then
+  if not Result.Rating then
     RhythmService:ToggleKey(true);
   end;
   
@@ -101,6 +101,12 @@ function RhythmService:ToggleKey(disable, index, keepPosition)
   end;
 end;
 
+function RhythmService:ResetKeys()
+  for i, key in ipairs(Song.Keys) do
+    Song.Keys[i] = {key[1], 1};
+  end;
+end;
+
 function RhythmService:StopStopwatch()
   if Song.StopwatchEvent and Song.StopwatchEvent.Connected then
     Song.StopwatchEvent:Disconnect();
@@ -110,7 +116,9 @@ function RhythmService:StopStopwatch()
 end;
 
 function RhythmService:StartStopwatch()
+  assert(Song.Sound, "A sound hasn't been defined!");
   RhythmService:StopStopwatch();
+  RhythmService:ResetKeys();
   
   -- Add a new SW
   Song.StopwatchEvent = RunService.Heartbeat:Connect(function()
@@ -128,6 +136,6 @@ end;
 for _, eventName in ipairs({"OnIdle"}) do
   Events[eventName] = Instance.new("BindableEvent");
   RhythmService[eventName] = Events[eventName].Event;
-end
+end;
 
 return RhythmService;
