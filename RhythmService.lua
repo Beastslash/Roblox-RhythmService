@@ -11,11 +11,7 @@ local RhythmService = {
 local Song = {Sound = nil, Keys = {}, KeyPosition = 1, StopwatchEvent = nil};
 local Events = {};
 
-function RhythmService:SetSound(sound, keepKeys, startStopwatchOnPlay)
-  assert(sound and sound:IsA("Sound"), "A sound instance must be the first argument");
-  assert(not keepKeys or typeof(keepKeys) == "boolean", "keepKeys must be a boolean or nil");
-  assert(not startStopwatchOnPlay or typeof(startStopwatchOnPlay) == "boolean", "startStopwatchOnPlay must be a boolean or nil");
-
+function RhythmService:SetSound(sound: Sound, keepKeys: boolean?, startStopwatchOnPlay: boolean?)
   -- Set sound and remove keys if necessary
   Song.Sound = sound;
   if not keepKeys then
@@ -31,10 +27,8 @@ function RhythmService:SetSound(sound, keepKeys, startStopwatchOnPlay)
   end;
 end;
 
-function RhythmService:AddKey(timePosition, index)
+function RhythmService:AddKey(timePosition: number, index: number?)
   assert(Song.Sound, "A sound instance must be defined before adding a key");
-  assert(timePosition and tonumber(timePosition), "A time position must be given to add a key");
-  assert(not index or tonumber(index), "index must be a number or nil");
   
   -- Add key
   local Key = {timePosition, 1};
@@ -45,9 +39,7 @@ function RhythmService:AddKey(timePosition, index)
   end;
 end;
 
-function RhythmService:SetKeys(keys)
-  assert(not keys or typeof(keys) == "table", "keys must be a table or nil")
-  
+function RhythmService:SetKeys(keys: {number}?)
   -- Set keys
   Song.Keys = {};
   if keys then
@@ -57,8 +49,7 @@ function RhythmService:SetKeys(keys)
   end;
 end;
 
-function RhythmService:RemoveKey(index)
-  assert(not index or tonumber(index), "index must be a number");
+function RhythmService:RemoveKey(index: number)
   table.remove(Song.Keys, index);
 end;
 
@@ -87,11 +78,7 @@ function RhythmService:CheckRhythm()
   return Result;
 end;
 
-function RhythmService:ToggleKey(disable, index, keepPosition)
-  assert(not disable or typeof(disable) == "boolean", "disable must be a boolean or nil");
-  assert(not index or tonumber(index), "Index must be a number or nil");
-  assert(not keepPosition or typeof(disable) == "boolean", "Index must be a number or nil");
-
+function RhythmService:ToggleKey(disable: boolean?, index: number?, keepPosition: number?)
   -- Toggle key and shift position
   Song.Keys[Song.KeyPosition or index][2] = (disable and 0) or 1;
   if not keepPosition and #Song.Keys >= Song.KeyPosition + 1 then
