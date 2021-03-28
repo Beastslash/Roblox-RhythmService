@@ -11,11 +11,9 @@ You can get the module here:
 
 https://www.roblox.com/library/6580760519/RhythmService
 
-You can check out or contribute to the code here: 
+You can check out or contribute to the code in this repository!
 
-https://github.com/Beastslash/Roblox-RhythmService
-
-And here's the documentation: https://github.com/Beastslash/Roblox-RhythmService/wiki/API-documentation
+Here's the documentation: https://github.com/Beastslash/Roblox-RhythmService/wiki/API-documentation
 
 ---
 
