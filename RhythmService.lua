@@ -46,11 +46,14 @@ function RhythmService:AddKey(timePosition, index)
 end;
 
 function RhythmService:SetKeys(keys)
-  assert(typeof(keys) == "table", "keys must be a table")
+  assert(not keys or typeof(keys) == "table", "keys must be a table or nil")
   
   -- Set keys
-  for _, timePosition in ipairs(keys) do
-    table.insert(Song.Keys, {timePosition, 1})
+  Song.Keys = {};
+  if keys then
+    for _, timePosition in ipairs(keys) do
+      table.insert(Song.Keys, {timePosition, 1})
+    end;
   end;
 end;
 
@@ -60,6 +63,7 @@ function RhythmService:RemoveKey(index)
 end;
 
 function RhythmService:CheckRhythm()
+  assert(#Song.Keys > 0, "There has to be at least one key!");
   assert(Song.StopwatchEvent and Song.StopwatchEvent.Connected, "The stopwatch hasn't started!");
   
   local SongPosition = Song.Sound.TimePosition;
@@ -113,8 +117,11 @@ end;
 
 function RhythmService:StartStopwatch()
   assert(Song.Sound, "A sound hasn't been defined!");
+  assert(#Song.Keys > 0, "There has to be at least one key!");
+  
   RhythmService:StopStopwatch();
   RhythmService:ResetKeys();
+  Song.KeyPosition = 1;
   
   -- Add a new SW
   Song.StopwatchEvent = RunService.Heartbeat:Connect(function()
