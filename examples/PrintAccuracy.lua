@@ -16,7 +16,7 @@ end);
 
 UserInputService.InputEnded:Connect(function(input)
   if input.KeyCode == Enum.KeyCode.Space then
-    if RhythmService.Stopwatch then
+    if RhythmService.Stopwatch then -- :CheckRhythm will error if the stopwatch isn't active
       local Result = RhythmService:CheckRhythm(true);
       if Result then
         print((Result.Rating == 1 and "Perfect hold!") or (Result.Rating == 2 and "OK hold") or "Miss");
