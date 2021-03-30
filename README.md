@@ -2,7 +2,7 @@ I was making a rhythm game and thought that some people might've wanted to do th
 
 **Feature summary:**
 - Get accuracy data based on customizable tolerance levels
-  - Lower `Rating` = More on-beat, but `0` means the player completely missed
+  - Lower `Rating` = More on-beat, but `nil` means the player completely missed
 - An event (`OnIdle`) fires if no input is given and a key passed.
 
 ---
