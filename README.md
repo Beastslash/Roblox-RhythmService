@@ -17,4 +17,4 @@ Here's the documentation: https://github.com/Beastslash/Roblox-RhythmService/wik
 
 ---
 
-If you have any questions, DM me on the DevForum or on my [Twitter](https://twitter.com/Draguwro)! I'll be happy to help.
+If you have any questions, DM me on the DevForum or on my [Twitter](https://twitter.com/Sudobeast)! I'll be happy to help.
